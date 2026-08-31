@@ -1,0 +1,86 @@
+{
+  "roles": {
+    "anon": "Unauthenticated visitor (read-only, limited views)",
+    "user": "Authenticated end-user with basic task interaction privileges",
+    "admin": "Elevated privileges for managing tasks and assignments"
+  },
+  "resources": {
+    "Home": [
+      "anon",
+      "user",
+      "admin"
+    ],
+    "TaskCollection": [
+      "user",
+      "admin"
+    ],
+    "TaskItem": [
+      "user",
+      "admin"
+    ]
+  },
+  "actions": {
+    "ShowHomePage": {
+      "type": "Safe",
+      "allowedRoles": [
+        "anon",
+        "user",
+        "admin"
+      ]
+    },
+    "GetTaskCollection": {
+      "type": "Safe",
+      "allowedRoles": [
+        "user",
+        "admin"
+      ]
+    },
+    "GetTaskItem": {
+      "type": "Safe",
+      "allowedRoles": [
+        "user",
+        "admin"
+      ]
+    },
+    "CreateNewTask": {
+      "type": "Unsafe",
+      "allowedRoles": [
+        "user",
+        "admin"
+      ]
+    },
+    "EditExistingTask": {
+      "type": "Unsafe",
+      "allowedRoles": [
+        "user",
+        "admin"
+      ]
+    },
+    "UpdateStatusOfTask": {
+      "type": "Idempotent",
+      "allowedRoles": [
+        "user",
+        "admin"
+      ]
+    },
+    "SetDueDateOfTask": {
+      "type": "Idempotent",
+      "allowedRoles": [
+        "admin"
+      ]
+    },
+    "AssignUserToTask": {
+      "type": "Idempotent",
+      "allowedRoles": [
+        "admin"
+      ]
+    },
+    "GetFilteredTaskCollection": {
+      "type": "Safe",
+      "allowedRoles": [
+        "user",
+        "admin"
+      ]
+    }
+  }
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Management API - ALPS Documentation</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; }
+    header { background: #2c3e50; color: white; padding: 1rem; position: sticky; top: 0; }
+    nav a { color: white; text-decoration: none; margin-right: 1rem; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    main { padding: 2rem; }
+    section { margin-bottom: 3rem; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
+    code, pre { background: #f6f6f6; padding: 0.5rem; border-radius: 4px; }
+    .mermaid { margin-top: 2rem; background: #f9f9f9; padding: 1rem; border-radius: 6px; }
+  </style>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Task Management API</h1>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#data-descriptors">Data Fields</a>
+      <a href="#states">States</a>
+      <a href="#transitions">Transitions</a>
+      <a href="#diagram">Diagram</a>
+    </nav>
+  </header>
+  <main>
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>This ALPS document defines a task tracking system for improving timeliness and accuracy in customer follow-up. It includes task fields, states, and transitions.</p>
+    </section>
+    <section id="data-descriptors">
+      <h2>Data Fields</h2>
+      <table>
+        <tr><th>ID</th><th>Title</th><th>Description</th><th>Tag</th></tr>
+        <tr>
+          <td><code id="id">id</code></td>
+          <td>Identifier</td>
+          <td>A globally unique identifier for each task record.</td>
+          <td>task-management</td>
+        </tr>
+        <tr>
+          <td><code id="title">title</code></td>
+          <td>Title</td>
+          <td>Short title or name of the task.</td>
+          <td>task-management</td>
+        </tr>
+        <tr>
+          <td><code id="description">description</code></td>
+          <td>Description</td>
+          <td>Detailed description of the task.</td>
+          <td>task-management</td>
+        </tr>
+        <tr>
+          <td><code id="dueDate">dueDate</code></td>
+          <td>Due Date</td>
+          <td>Deadline by which the task should be completed.</td>
+          <td>task-management</td>
+        </tr>
+        <tr>
+          <td><code id="status">status</code></td>
+          <td>Status</td>
+          <td>Current state of the task (active or completed).</td>
+          <td>task-management</td>
+        </tr>
+        <tr>
+          <td><code id="priority">priority</code></td>
+          <td>Priority</td>
+          <td>Task importance, typically from 1 (lowest) to 5 (highest).</td>
+          <td>task-management</td>
+        </tr>
+        <tr>
+          <td><code id="assignedUser">assignedUser</code></td>
+          <td>Assigned User</td>
+          <td>User responsible for completing the task.</td>
+          <td>task-management</td>
+        </tr></table></section><section id="states"><h2>States</h2><h3><code id="Home">Home</code> - Home State</h3>
+    <table><tr><th>Contains</th></tr><tr><td><a href="#goShowHomePage">goShowHomePage</a></td></tr><tr><td><a href="#goGetTaskCollection">goGetTaskCollection</a></td></tr><tr><td><a href="#goGetFilteredTaskCollection">goGetFilteredTaskCollection</a></td></tr></table><h3><code id="TaskCollection">TaskCollection</code> - Task Collection State</h3>
+    <table><tr><th>Contains</th></tr><tr><td><a href="#goShowHomePage">goShowHomePage</a></td></tr><tr><td><a href="#goGetTaskCollection">goGetTaskCollection</a></td></tr><tr><td><a href="#goGetFilteredTaskCollection">goGetFilteredTaskCollection</a></td></tr><tr><td><a href="#doCreateNewTask">doCreateNewTask</a></td></tr><tr><td><a href="#goGetTaskItem">goGetTaskItem</a></td></tr></table><h3><code id="TaskItem">TaskItem</code> - Task Item State</h3>
+    <table><tr><th>Contains</th></tr><tr><td><a href="#doEditExistingTask">doEditExistingTask</a></td></tr><tr><td><a href="#doUpdateStatusOfTask">doUpdateStatusOfTask</a></td></tr><tr><td><a href="#doSetDueDateOfTask">doSetDueDateOfTask</a></td></tr><tr><td><a href="#doAssignUserToTask">doAssignUserToTask</a></td></tr><tr><td><a href="#goGetTaskCollection">goGetTaskCollection</a></td></tr><tr><td><a href="#goGetFilteredTaskCollection">goGetFilteredTaskCollection</a></td></tr><tr><td><a href="#goShowHomePage">goShowHomePage</a></td></tr></table></section><section id="transitions"><h2>Transitions</h2><table><tr><th>ID</th><th>Title</th><th>Type</th><th>HTTP</th><th>Return</th><th>Example</th></tr><tr>
+      <td><code id="goShowHomePage">goShowHomePage</code></td>
+      <td>Go to Home</td>
+      <td>safe</td>
+      <td>GET</td>
+      <td><a href="#Home">Home</a></td>
+      <td>?</td>
+    </tr><tr>
+      <td><code id="goGetTaskCollection">goGetTaskCollection</code></td>
+      <td>Get Task Collection</td>
+      <td>safe</td>
+      <td>GET</td>
+      <td><a href="#TaskCollection">TaskCollection</a></td>
+      <td>?</td>
+    </tr><tr>
+      <td><code id="goGetTaskItem">goGetTaskItem</code></td>
+      <td>Get Task Item</td>
+      <td>safe</td>
+      <td>GET</td>
+      <td><a href="#TaskItem">TaskItem</a></td>
+      <td>?id=...</td>
+    </tr><tr>
+      <td><code id="doCreateNewTask">doCreateNewTask</code></td>
+      <td>Create Task</td>
+      <td>unsafe</td>
+      <td>POST</td>
+      <td><a href="#TaskCollection">TaskCollection</a></td>
+      <td><pre>{
+  &quot;id&quot;: &quot;...&quot;,
+  &quot;title&quot;: &quot;...&quot;,
+  &quot;description&quot;: &quot;...&quot;,
+  &quot;dueDate&quot;: &quot;...&quot;,
+  &quot;status&quot;: &quot;...&quot;,
+  &quot;priority&quot;: &quot;...&quot;,
+  &quot;assignedUser&quot;: &quot;...&quot;
+}</pre></td>
+    </tr><tr>
+      <td><code id="doEditExistingTask">doEditExistingTask</code></td>
+      <td>Edit Task</td>
+      <td>unsafe</td>
+      <td>POST</td>
+      <td><a href="#TaskItem">TaskItem</a></td>
+      <td><pre>{
+  &quot;id&quot;: &quot;...&quot;,
+  &quot;title&quot;: &quot;...&quot;,
+  &quot;description&quot;: &quot;...&quot;,
+  &quot;dueDate&quot;: &quot;...&quot;,
+  &quot;status&quot;: &quot;...&quot;,
+  &quot;priority&quot;: &quot;...&quot;,
+  &quot;assignedUser&quot;: &quot;...&quot;
+}</pre></td>
+    </tr><tr>
+      <td><code id="doUpdateStatusOfTask">doUpdateStatusOfTask</code></td>
+      <td>Update Status</td>
+      <td>idempotent</td>
+      <td>PUT</td>
+      <td><a href="#TaskItem">TaskItem</a></td>
+      <td><pre>{
+  &quot;id&quot;: &quot;...&quot;,
+  &quot;status&quot;: &quot;...&quot;
+}</pre></td>
+    </tr><tr>
+      <td><code id="doSetDueDateOfTask">doSetDueDateOfTask</code></td>
+      <td>Set Due Date</td>
+      <td>idempotent</td>
+      <td>PUT</td>
+      <td><a href="#TaskItem">TaskItem</a></td>
+      <td><pre>{
+  &quot;id&quot;: &quot;...&quot;,
+  &quot;dueDate&quot;: &quot;...&quot;
+}</pre></td>
+    </tr><tr>
+      <td><code id="doAssignUserToTask">doAssignUserToTask</code></td>
+      <td>Assign User</td>
+      <td>idempotent</td>
+      <td>PUT</td>
+      <td><a href="#TaskItem">TaskItem</a></td>
+      <td><pre>{
+  &quot;id&quot;: &quot;...&quot;,
+  &quot;assignedUser&quot;: &quot;...&quot;
+}</pre></td>
+    </tr><tr>
+      <td><code id="goGetFilteredTaskCollection">goGetFilteredTaskCollection</code></td>
+      <td>Filter Task Collection</td>
+      <td>safe</td>
+      <td>GET</td>
+      <td><a href="#TaskCollection">TaskCollection</a></td>
+      <td>?title=...&dueDate=...&status=...&priority=...&assignedUser=...</td>
+    </tr></table></section>
+<section id="diagram">
+  <h2>API State Diagram</h2>
+  <div class="mermaid">
+  graph TD
+  goShowHomePage["Go to Home"] --> Home
+  goGetTaskCollection["Get Task Collection"] --> TaskCollection
+  goGetTaskItem["Get Task Item"] --> TaskItem
+  doCreateNewTask["Create Task"] --> TaskCollection
+  doEditExistingTask["Edit Task"] --> TaskItem
+  doUpdateStatusOfTask["Update Status"] --> TaskItem
+  doSetDueDateOfTask["Set Due Date"] --> TaskItem
+  doAssignUserToTask["Assign User"] --> TaskItem
+  goGetFilteredTaskCollection["Filter Task Collection"] --> TaskCollection
+  </div>
+</section>
+</main></body></html>

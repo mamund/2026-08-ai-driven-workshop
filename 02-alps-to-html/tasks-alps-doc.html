@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+  </title>
+  <title>
+   Task Management API Profile
+  </title>
+  <style>
+   body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; }
+header { background: #2c3e50; color: white; padding: 1rem; position: sticky; top: 0; }
+nav a { color: white; text-decoration: none; margin-right: 1rem; font-weight: bold; }
+nav a:hover { text-decoration: underline; }
+main { padding: 2rem; }
+section { margin-bottom: 3rem; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
+code, pre { background: #f6f6f6; padding: 0.5rem; border-radius: 4px; }
+.mermaid { margin-top: 2rem; background: #f9f9f9; padding: 1rem; border-radius: 6px; }
+  </style>
+  <script type="module">
+   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+mermaid.initialize({ startOnLoad: true });
+  </script>
+ </head>
+ <head>
+ </head>
+ <body>
+  <header>
+   <nav>
+    <a href="#overview">
+     Overview
+    </a>
+    <a href="#data-descriptors">
+     Data Descriptors
+    </a>
+    <a href="#states">
+     States
+    </a>
+    <a href="#transitions">
+     Transitions
+    </a>
+    <a href="#metadata">
+     Metadata
+    </a>
+   </nav>
+  </header>
+  <main>
+   <section id="overview">
+    <h1>
+     Task Management API Profile
+    </h1>
+    <p>
+     This API manages task records including creation, editing, filtering, and assignment actions.
+    </p>
+   </section>
+   <section id="data-descriptors">
+    <h2>
+     Data Descriptors
+    </h2>
+    <table>
+     <thead>
+      <tr>
+       <th>
+        ID
+       </th>
+       <th>
+        Title
+       </th>
+       <th>
+        Definition
+       </th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>
+        id
+       </td>
+       <td>
+        Identifier
+       </td>
+       <td>
+        A globally unique identifier for each task record.
+       </td>
+      </tr>
+      <tr>
+       <td>
+        title
+       </td>
+       <td>
+        Title
+       </td>
+       <td>
+        Short title or name of the task.
+       </td>
+      </tr>
+      <tr>
+       <td>
+        description
+       </td>
+       <td>
+        Description
+       </td>
+       <td>
+        Detailed description of the task.
+       </td>
+      </tr>
+      <tr>
+       <td>
+        dueDate
+       </td>
+       <td>
+        Due Date
+       </td>
+       <td>
+        Deadline by which the task should be completed.
+       </td>
+      </tr>
+      <tr>
+       <td>
+        status
+       </td>
+       <td>
+        Status
+       </td>
+       <td>
+        Current state of the task (active or completed).
+       </td>
+      </tr>
+      <tr>
+       <td>
+        priority
+       </td>
+       <td>
+        Priority
+       </td>
+       <td>
+        Task importance, typically from 1 (lowest) to 5 (highest).
+       </td>
+      </tr>
+      <tr>
+       <td>
+        assignedUser
+       </td>
+       <td>
+        Assigned User
+       </td>
+       <td>
+        User responsible for completing the task.
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </section>
+   <section id="metadata">
+    <h2>
+     Metadata
+    </h2>
+    <ul>
+     <li>
+      Title: Task Management API Profile
+     </li>
+     <li>
+      Version: 1.0
+     </li>
+     <li>
+      Last Modified: 2025-06-16 00:06:38 UTC
+     </li>
+    </ul>
+   </section>
+   <section id="states">
+    <h2>
+     Application States
+    </h2>
+    <table>
+     <thead>
+      <tr>
+       <th>
+        ID
+       </th>
+       <th>
+        Title
+       </th>
+       <th>
+        Tag
+       </th>
+       <th>
+        Contains
+       </th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>
+        <code>
+         Home
+        </code>
+       </td>
+       <td>
+        Home State
+       </td>
+       <td>
+        navigation
+       </td>
+       <td>
+        <a href="#goShowHomePage">
+         goShowHomePage
+        </a>
+        ,
+        <a href="#goGetTaskCollection">
+         goGetTaskCollection
+        </a>
+        ,
+        <a href="#goGetFilteredTaskCollection">
+         goGetFilteredTaskCollection
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         TaskCollection
+        </code>
+       </td>
+       <td>
+        Task Collection State
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <a href="#goShowHomePage">
+         goShowHomePage
+        </a>
+        ,
+        <a href="#goGetTaskCollection">
+         goGetTaskCollection
+        </a>
+        ,
+        <a href="#goGetFilteredTaskCollection">
+         goGetFilteredTaskCollection
+        </a>
+        ,
+        <a href="#doCreateNewTask">
+         doCreateNewTask
+        </a>
+        ,
+        <a href="#goGetTaskItem">
+         goGetTaskItem
+        </a>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         TaskItem
+        </code>
+       </td>
+       <td>
+        Task Item State
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <a href="#doEditExistingTask">
+         doEditExistingTask
+        </a>
+        ,
+        <a href="#doUpdateStatusOfTask">
+         doUpdateStatusOfTask
+        </a>
+        ,
+        <a href="#doSetDueDateOfTask">
+         doSetDueDateOfTask
+        </a>
+        ,
+        <a href="#doAssignUserToTask">
+         doAssignUserToTask
+        </a>
+        ,
+        <a href="#goGetTaskCollection">
+         goGetTaskCollection
+        </a>
+        ,
+        <a href="#goGetFilteredTaskCollection">
+         goGetFilteredTaskCollection
+        </a>
+        ,
+        <a href="#goShowHomePage">
+         goShowHomePage
+        </a>
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </section>
+   <section id="transitions">
+    <h2>
+     Transitions (Affordances)
+    </h2>
+    <table>
+     <thead>
+      <tr>
+       <th>
+        ID
+       </th>
+       <th>
+        Title
+       </th>
+       <th>
+        Type
+       </th>
+       <th>
+        HTTP
+       </th>
+       <th>
+        Return
+       </th>
+       <th>
+        Tag
+       </th>
+       <th>
+        Example
+       </th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>
+        <code>
+         goShowHomePage
+        </code>
+       </td>
+       <td>
+        Go to Home
+       </td>
+       <td>
+        safe
+       </td>
+       <td>
+        GET
+       </td>
+       <td>
+        <a href="#Home">
+         Home
+        </a>
+       </td>
+       <td>
+        navigation
+       </td>
+       <td>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         goGetTaskCollection
+        </code>
+       </td>
+       <td>
+        Get Task Collection
+       </td>
+       <td>
+        safe
+       </td>
+       <td>
+        GET
+       </td>
+       <td>
+        <a href="#TaskCollection">
+         TaskCollection
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         goGetTaskItem
+        </code>
+       </td>
+       <td>
+        Get Task Item
+       </td>
+       <td>
+        safe
+       </td>
+       <td>
+        GET
+       </td>
+       <td>
+        <a href="#TaskItem">
+         TaskItem
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>?id=...</pre>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         doCreateNewTask
+        </code>
+       </td>
+       <td>
+        Create Task
+       </td>
+       <td>
+        unsafe
+       </td>
+       <td>
+        POST
+       </td>
+       <td>
+        <a href="#TaskCollection">
+         TaskCollection
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>{
+  "id": "...",
+  "title": "...",
+  "description": "...",
+  "dueDate": "...",
+  "status": "...",
+  "priority": "...",
+  "assignedUser": "..."
+}</pre>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         doEditExistingTask
+        </code>
+       </td>
+       <td>
+        Edit Task
+       </td>
+       <td>
+        unsafe
+       </td>
+       <td>
+        POST
+       </td>
+       <td>
+        <a href="#TaskItem">
+         TaskItem
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>{
+  "id": "...",
+  "title": "...",
+  "description": "...",
+  "dueDate": "...",
+  "status": "...",
+  "priority": "...",
+  "assignedUser": "..."
+}</pre>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         doUpdateStatusOfTask
+        </code>
+       </td>
+       <td>
+        Update Status
+       </td>
+       <td>
+        idempotent
+       </td>
+       <td>
+        PUT
+       </td>
+       <td>
+        <a href="#TaskItem">
+         TaskItem
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>{
+  "id": "...",
+  "status": "..."
+}</pre>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         doSetDueDateOfTask
+        </code>
+       </td>
+       <td>
+        Set Due Date
+       </td>
+       <td>
+        idempotent
+       </td>
+       <td>
+        PUT
+       </td>
+       <td>
+        <a href="#TaskItem">
+         TaskItem
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>{
+  "id": "...",
+  "dueDate": "..."
+}</pre>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         doAssignUserToTask
+        </code>
+       </td>
+       <td>
+        Assign User
+       </td>
+       <td>
+        idempotent
+       </td>
+       <td>
+        PUT
+       </td>
+       <td>
+        <a href="#TaskItem">
+         TaskItem
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>{
+  "id": "...",
+  "assignedUser": "..."
+}</pre>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         goGetFilteredTaskCollection
+        </code>
+       </td>
+       <td>
+        Filter Task Collection
+       </td>
+       <td>
+        safe
+       </td>
+       <td>
+        GET
+       </td>
+       <td>
+        <a href="#TaskCollection">
+         TaskCollection
+        </a>
+       </td>
+       <td>
+        task-management
+       </td>
+       <td>
+        <pre>?title=...&amp;dueDate=...&amp;status=...&amp;priority=...&amp;assignedUser=...</pre>
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </section>
+   <section id="diagram">
+    <h2>
+     API State Diagram
+    </h2>
+    <div class="mermaid">
+     graph TD
+goShowHomePage["Go to Home"] --&gt; Home
+goGetTaskCollection["Get Task Collection"] --&gt; TaskCollection
+goGetTaskItem["Get Task Item"] --&gt; TaskItem
+doCreateNewTask["Create Task"] --&gt; TaskCollection
+doEditExistingTask["Edit Task"] --&gt; TaskItem
+doUpdateStatusOfTask["Update Status"] --&gt; TaskItem
+doSetDueDateOfTask["Set Due Date"] --&gt; TaskItem
+doAssignUserToTask["Assign User"] --&gt; TaskItem
+goGetFilteredTaskCollection["Filter Task Collection"] --&gt; TaskCollection
+    </div>
+   </section>
+  </main>
+ </body>
+</html>

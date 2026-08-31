@@ -1,0 +1,315 @@
+{
+  "$schema": "https://alps-io.github.io/schemas/alps.json",
+  "alps": {
+    "version": "1.0",
+    "descriptor": [
+      {
+        "id": "id",
+        "type": "semantic",
+        "title": "Identifier",
+        "doc": {
+          "value": "A globally unique identifier for each task record."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "title",
+        "type": "semantic",
+        "title": "Title",
+        "doc": {
+          "value": "Short title or name of the task."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "description",
+        "type": "semantic",
+        "title": "Description",
+        "doc": {
+          "value": "Detailed description of the task."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "dueDate",
+        "type": "semantic",
+        "title": "Due Date",
+        "doc": {
+          "value": "Deadline by which the task should be completed."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "status",
+        "type": "semantic",
+        "title": "Status",
+        "doc": {
+          "value": "Current state of the task (active or completed)."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "priority",
+        "type": "semantic",
+        "title": "Priority",
+        "doc": {
+          "value": "Task importance, typically from 1 (lowest) to 5 (highest)."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "assignedUser",
+        "type": "semantic",
+        "title": "Assigned User",
+        "doc": {
+          "value": "User responsible for completing the task."
+        },
+        "tag": "task-management"
+      },
+      {
+        "id": "Home",
+        "type": "semantic",
+        "title": "Home State",
+        "tag": "navigation",
+        "descriptor": [
+          {
+            "href": "#goShowHomePage"
+          },
+          {
+            "href": "#goGetTaskCollection"
+          },
+          {
+            "href": "#goGetFilteredTaskCollection"
+          }
+        ]
+      },
+      {
+        "id": "TaskCollection",
+        "type": "semantic",
+        "title": "Task Collection State",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#goShowHomePage"
+          },
+          {
+            "href": "#goGetTaskCollection"
+          },
+          {
+            "href": "#goGetFilteredTaskCollection"
+          },
+          {
+            "href": "#doCreateNewTask"
+          },
+          {
+            "href": "#goGetTaskItem"
+          }
+        ]
+      },
+      {
+        "id": "TaskItem",
+        "type": "semantic",
+        "title": "Task Item State",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#doEditExistingTask"
+          },
+          {
+            "href": "#doUpdateStatusOfTask"
+          },
+          {
+            "href": "#doSetDueDateOfTask"
+          },
+          {
+            "href": "#doAssignUserToTask"
+          },
+          {
+            "href": "#goGetTaskCollection"
+          },
+          {
+            "href": "#goGetFilteredTaskCollection"
+          },
+          {
+            "href": "#goShowHomePage"
+          }
+        ]
+      },
+      {
+        "id": "goShowHomePage",
+        "type": "safe",
+        "title": "Go to Home",
+        "rt": "#Home",
+        "tag": "navigation",
+        "descriptor": []
+      },
+      {
+        "id": "goGetTaskCollection",
+        "type": "safe",
+        "title": "Get Task Collection",
+        "rt": "#TaskCollection",
+        "tag": "task-management",
+        "descriptor": []
+      },
+      {
+        "id": "goGetTaskItem",
+        "type": "safe",
+        "title": "Get Task Item",
+        "rt": "#TaskItem",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#id"
+          }
+        ],
+        "doc": {
+          "value": "Required: id"
+        }
+      },
+      {
+        "id": "doCreateNewTask",
+        "type": "unsafe",
+        "title": "Create Task",
+        "rt": "#TaskCollection",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#title"
+          },
+          {
+            "href": "#description"
+          },
+          {
+            "href": "#dueDate"
+          },
+          {
+            "href": "#status"
+          },
+          {
+            "href": "#priority"
+          },
+          {
+            "href": "#assignedUser"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, title, status"
+        }
+      },
+      {
+        "id": "doEditExistingTask",
+        "type": "unsafe",
+        "title": "Edit Task",
+        "rt": "#TaskItem",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#title"
+          },
+          {
+            "href": "#description"
+          },
+          {
+            "href": "#dueDate"
+          },
+          {
+            "href": "#status"
+          },
+          {
+            "href": "#priority"
+          },
+          {
+            "href": "#assignedUser"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, title, status"
+        }
+      },
+      {
+        "id": "doUpdateStatusOfTask",
+        "type": "idempotent",
+        "title": "Update Status",
+        "rt": "#TaskItem",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#status"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, status"
+        }
+      },
+      {
+        "id": "doSetDueDateOfTask",
+        "type": "idempotent",
+        "title": "Set Due Date",
+        "rt": "#TaskItem",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#dueDate"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, dueDate"
+        }
+      },
+      {
+        "id": "doAssignUserToTask",
+        "type": "idempotent",
+        "title": "Assign User",
+        "rt": "#TaskItem",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#assignedUser"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, assignedUser"
+        }
+      },
+      {
+        "id": "goGetFilteredTaskCollection",
+        "type": "safe",
+        "title": "Filter Task Collection",
+        "rt": "#TaskCollection",
+        "tag": "task-management",
+        "descriptor": [
+          {
+            "href": "#title"
+          },
+          {
+            "href": "#dueDate"
+          },
+          {
+            "href": "#status"
+          },
+          {
+            "href": "#priority"
+          },
+          {
+            "href": "#assignedUser"
+          }
+        ]
+      }
+    ]
+  }
+}

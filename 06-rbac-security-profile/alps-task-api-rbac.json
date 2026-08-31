@@ -1,0 +1,135 @@
+{
+  "alps": {
+    "version": "1.0",
+    "descriptor": [
+      {
+        "id": "id",
+        "type": "semantic",
+        "doc": {
+          "value": "Unique task ID"
+        }
+      },
+      {
+        "id": "title",
+        "type": "semantic",
+        "doc": {
+          "value": "Task title"
+        }
+      },
+      {
+        "id": "status",
+        "type": "semantic",
+        "doc": {
+          "value": "Task status"
+        }
+      },
+      {
+        "id": "Home",
+        "type": "semantic",
+        "doc": {
+          "value": "Entry point of the API"
+        },
+        "ext": [
+          {
+            "id": "roles",
+            "value": "anon, user, admin"
+          }
+        ]
+      },
+      {
+        "id": "TaskCollection",
+        "type": "semantic",
+        "doc": {
+          "value": "List of all tasks"
+        },
+        "ext": [
+          {
+            "id": "roles",
+            "value": "user, admin"
+          }
+        ]
+      },
+      {
+        "id": "TaskItem",
+        "type": "semantic",
+        "doc": {
+          "value": "Details of a single task"
+        },
+        "ext": [
+          {
+            "id": "roles",
+            "value": "user, admin"
+          }
+        ]
+      },
+      {
+        "id": "goTaskCollection",
+        "type": "safe",
+        "rt": "#TaskCollection",
+        "descriptor": [],
+        "doc": {
+          "value": "Returns the list of tasks"
+        },
+        "ext": [
+          {
+            "id": "roles",
+            "value": "user, admin"
+          }
+        ]
+      },
+      {
+        "id": "doCreateTask",
+        "type": "unsafe",
+        "rt": "#TaskCollection",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#title"
+          },
+          {
+            "href": "#status"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, title, status"
+        },
+        "ext": [
+          {
+            "id": "roles",
+            "value": "user, admin"
+          }
+        ]
+      },
+      {
+        "id": "doAssignUser",
+        "type": "idempotent",
+        "rt": "#TaskItem",
+        "descriptor": [
+          {
+            "href": "#id"
+          },
+          {
+            "href": "#assignedUser"
+          }
+        ],
+        "doc": {
+          "value": "Required: id, assignedUser"
+        },
+        "ext": [
+          {
+            "id": "roles",
+            "value": "admin"
+          }
+        ]
+      }
+    ],
+    "ext": [
+      {
+        "id": "roles",
+        "value": "anon, user, admin"
+      }
+    ]
+  }
+}

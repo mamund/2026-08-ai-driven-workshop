@@ -1,0 +1,159 @@
+openapi: 3.1.0
+info:
+  title: Person Service API
+  version: 1.0.0
+  description: Person Service API profile for [RWMBook](http://b.mamund.com/rwmbook).
+
+paths:
+  /persons:
+    get:
+      summary: Go to the list of person records
+      description: A safe idempotent action to go to the list of person records.
+      operationId: listPersons
+      tags: [Collection]
+      responses:
+        '200':
+          description: A list of person records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+    post:
+      summary: Create a new person record
+      description: An unsafe non-idempotent action to create a new person record.
+      operationId: createPerson
+      tags: [Collection]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        '201':
+          description: Person record created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+
+  /persons/{id}:
+    get:
+      summary: Go to a single person record
+      description: A safe idempotent action to go to a single person record.
+      operationId: getPerson
+      tags: [Item]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single person record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+    put:
+      summary: Update an existing person record
+      description: An unsafe idempotent action to update an existing person record.
+      operationId: updatePerson
+      tags: [Item]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        '200':
+          description: Person record updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+    delete:
+      summary: Remove an existing person record
+      description: An unsafe idempotent action to remove an existing person record.
+      operationId: deletePerson
+      tags: [Item]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Person record deleted successfully
+
+  /persons/{id}/status:
+    patch:
+      summary: Change the status of an existing person record
+      description: An unsafe idempotent action to change the status of an existing person record.
+      operationId: changePersonStatus
+      tags: [Item]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: Status of the person record (active, inactive)
+      responses:
+        '200':
+          description: Person status updated
+
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: string
+          title: Id of the person record
+          description: The Id of the person record.
+        givenName:
+          type: string
+          title: The given name of the person
+          description: The given name of the person
+        familyName:
+          type: string
+          title: The family name of the person
+          description: The family name of the person
+        telephone:
+          type: string
+          title: Telephone associated with the person
+          description: Telephone associated with the person
+        email:
+          type: string
+          format: email
+          title: Email address associated with the person
+          description: Email address associated with the person
+        status:
+          type: string
+          title: Status of the person record (active, inactive)
+          description: Status of the person record (active, inactive)
+      required:
+        - id
+        - givenName
+        - familyName

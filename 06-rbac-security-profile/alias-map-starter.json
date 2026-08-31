@@ -1,0 +1,18 @@
+{
+  "resources": {
+    "Home": "Home",
+    "TaskCollection": "TaskCollection",
+    "TaskItem": "TaskItem"
+  },
+  "actions": {
+    "ShowHomePage": "TODO",
+    "GetTaskCollection": "TODO",
+    "GetTaskItem": "TODO",
+    "CreateNewTask": "TODO",
+    "EditExistingTask": "TODO",
+    "UpdateStatusOfTask": "TODO",
+    "SetDueDateOfTask": "TODO",
+    "AssignUserToTask": "TODO",
+    "GetFilteredTaskCollection": "TODO"
+  }
+}

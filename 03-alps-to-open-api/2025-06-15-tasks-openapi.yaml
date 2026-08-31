@@ -1,0 +1,269 @@
+openapi: 3.1.0
+info:
+  title: Task Management API
+  version: 1.0.0
+  description: OpenAPI 3.1 definition derived from ALPS profile for managing tasks.
+paths:
+  /home:
+    get:
+      operationId: goShowHomePage
+      summary: Go to Home
+      description: ''
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Home'
+        '400':
+          description: Invalid input
+        '404':
+          description: Resource not found
+      tags:
+      - navigation
+  /taskcollection:
+    get:
+      operationId: goGetFilteredTaskCollection
+      summary: Filter Task Collection
+      description: ''
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCollection'
+        '400':
+          description: Invalid input
+        '404':
+          description: Resource not found
+      tags:
+      - task-management
+      parameters:
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Short title or name of the task.
+      - name: dueDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Deadline by which the task should be completed.
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - active
+          - completed
+        description: Current state of the task (active or completed).
+      - name: priority
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 5
+        description: Task importance, typically from 1 (lowest) to 5 (highest).
+      - name: assignedUser
+        in: query
+        required: false
+        schema:
+          type: string
+        description: User responsible for completing the task.
+    post:
+      operationId: doCreateNewTask
+      summary: Create Task
+      description: 'Required: id, title, status'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCollection'
+        '400':
+          description: Invalid input
+        '404':
+          description: Resource not found
+      tags:
+      - task-management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: A globally unique identifier for each task record.
+                  type: string
+                  format: uuid
+                title:
+                  description: Short title or name of the task.
+                  type: string
+                description:
+                  description: Detailed description of the task.
+                  type: string
+                dueDate:
+                  description: Deadline by which the task should be completed.
+                  type: string
+                  format: date
+                status:
+                  description: Current state of the task (active or completed).
+                  type: string
+                  enum:
+                  - active
+                  - completed
+                priority:
+                  description: Task importance, typically from 1 (lowest) to 5 (highest).
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                assignedUser:
+                  description: User responsible for completing the task.
+                  type: string
+              required:
+              - id
+              - title
+              - status
+  /taskitem/{id}:
+    get:
+      operationId: goGetTaskItem
+      summary: Get Task Item
+      description: 'Required: id'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '400':
+          description: Invalid input
+        '404':
+          description: Resource not found
+      tags:
+      - task-management
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: A globally unique identifier for each task record.
+  /taskitem:
+    post:
+      operationId: doEditExistingTask
+      summary: Edit Task
+      description: 'Required: id, title, status'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '400':
+          description: Invalid input
+        '404':
+          description: Resource not found
+      tags:
+      - task-management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: A globally unique identifier for each task record.
+                  type: string
+                  format: uuid
+                title:
+                  description: Short title or name of the task.
+                  type: string
+                description:
+                  description: Detailed description of the task.
+                  type: string
+                dueDate:
+                  description: Deadline by which the task should be completed.
+                  type: string
+                  format: date
+                status:
+                  description: Current state of the task (active or completed).
+                  type: string
+                  enum:
+                  - active
+                  - completed
+                priority:
+                  description: Task importance, typically from 1 (lowest) to 5 (highest).
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                assignedUser:
+                  description: User responsible for completing the task.
+                  type: string
+              required:
+              - id
+              - title
+              - status
+    put:
+      operationId: doAssignUserToTask
+      summary: Assign User
+      description: 'Required: id, assignedUser'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '400':
+          description: Invalid input
+        '404':
+          description: Resource not found
+      tags:
+      - task-management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: A globally unique identifier for each task record.
+                  type: string
+                  format: uuid
+                assignedUser:
+                  description: User responsible for completing the task.
+                  type: string
+              required:
+              - id
+              - assignedUser
+components:
+  schemas:
+    Home:
+      type: object
+      properties: {}
+      required: []
+    TaskCollection:
+      type: object
+      properties: {}
+      required: []
+    TaskItem:
+      type: object
+      properties: {}
+      required: []
+tags:
+- name: navigation
+- name: task-management

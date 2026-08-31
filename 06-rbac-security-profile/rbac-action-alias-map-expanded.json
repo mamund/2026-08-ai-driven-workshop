@@ -1,0 +1,6 @@
+{
+  "ShowHomePage": "goHome",
+  "UpdateStatusOfTask": "doUpdateStatus",
+  "SetDueDateOfTask": "doSetDueDate",
+  "AssignUserToTask": "doAssignUser"
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Person Service API</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; }
+    header { background: #2c3e50; color: white; padding: 1rem; position: sticky; top: 0; }
+    nav a { color: white; text-decoration: none; margin-right: 1rem; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    main { padding: 2rem; }
+    section { margin-bottom: 3rem; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; vertical-align: top; }
+    code, pre { background: #f6f6f6; padding: 0.5rem; border-radius: 4px; }
+    .mermaid { margin-top: 2rem; background: #f9f9f9; padding: 1rem; border-radius: 6px; }
+  </style>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</head>
+<body>
+<header>
+  <h1>Person Service API</h1>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#data-descriptors">Data</a>
+    <a href="#states">States</a>
+    <a href="#transitions">Transitions</a>
+    <a href="#metadata">Metadata</a>
+  </nav>
+</header>
+<main>
+<section id="overview">
+  <p>Person Service API profile for [RWMBook](http://b.mamund.com/rwmbook).</p>
+</section>
+<section id="data-descriptors"><h2>Data Descriptors</h2><table><tr><th>ID</th><th>Title</th><th>Definition</th></tr><tr><td><code>id</code></td><td>Id of the person record</td><td>https://schema.org/identifier</td></tr><tr><td><code>givenName</code></td><td>The given name of the person</td><td>https://schema.org/givenName</td></tr><tr><td><code>familyName</code></td><td>The family name of the person</td><td>https://schema.org/familyName</td></tr><tr><td><code>telephone</code></td><td>Telephone associated with the person</td><td>https://schema.org/telephone</td></tr><tr><td><code>email</code></td><td>Email address associated with the person</td><td>https://schema.org/email</td></tr><tr><td><code>status</code></td><td>Status of the person record (active, inactive)</td><td>https://schema.org/status</td></tr></table></section><section id="states"><h2>Application States</h2><table><tr><th>ID</th><th>Title</th><th>Tag</th><th>Contains</th></tr><tr><td><code>person</code></td><td>The properties of a person record</td><td>ontology taxonomy</td><td><a href="#id"><code>id</code></a>, <a href="#givenName"><code>givenName</code></a>, <a href="#familyName"><code>familyName</code></a>, <a href="#telephone"><code>telephone</code></a>, <a href="#email"><code>email</code></a>, <a href="#status"><code>status</code></a></td></tr><tr><td><code>home</code></td><td>Home (starting point) of the person service</td><td>taxonomy</td><td>🔁 <a href="#goHome"><code>goHome</code></a>, 🔁 <a href="#goList"><code>goList</code></a></td></tr><tr><td><code>collection</code></td><td>List of person records</td><td>taxonomy</td><td><a href="#person"><code>person</code></a>, 🔁 <a href="#goHome"><code>goHome</code></a>, 🔁 <a href="#goList"><code>goList</code></a>, 🔁 <a href="#goFilter"><code>goFilter</code></a>, 🔁 <a href="#doCreate"><code>doCreate</code></a>, 🔁 <a href="#goItem"><code>goItem</code></a></td></tr><tr><td><code>item</code></td><td>Single person record</td><td>taxonomy</td><td><a href="#person"><code>person</code></a>, 🔁 <a href="#goHome"><code>goHome</code></a>, 🔁 <a href="#goList"><code>goList</code></a>, 🔁 <a href="#goFilter"><code>goFilter</code></a>, 🔁 <a href="#doUpdate"><code>doUpdate</code></a>, 🔁 <a href="#doStatus"><code>doStatus</code></a>, 🔁 <a href="#doRemove"><code>doRemove</code></a>, 🔁 <a href="#goItem"><code>goItem</code></a></td></tr></table></section><section id="transitions"><h2>Transitions</h2><table><tr><th>ID</th><th>Title</th><th>Type</th><th>HTTP</th><th>Return</th><th>Tag</th><th>Example</th></tr><tr><td><code>goHome</code></td><td>Go to the Home resource</td><td>safe</td><td>GET</td><td><a href="#home"><code>home</code></a></td><td>choreography</td><td></td></tr><tr><td><code>goList</code></td><td>Go to the list of person records</td><td>safe</td><td>GET</td><td><a href="#collection"><code>collection</code></a></td><td>choreography</td><td></td></tr><tr><td><code>goItem</code></td><td>Go to a single person record</td><td>safe</td><td>GET</td><td><a href="#item"><code>item</code></a></td><td>choreography</td><td><pre>?id=…</pre></td></tr><tr><td><code>goFilter</code></td><td>Filter the list of person records</td><td>safe</td><td>GET</td><td><a href="#collection"><code>collection</code></a></td><td>choreography</td><td><pre>?email=…&familyName=…&status=…</pre></td></tr><tr><td><code>doCreate</code></td><td>Create a new person record</td><td>unsafe</td><td>POST</td><td><a href="#collection"><code>collection</code></a></td><td>choreography</td><td><pre>{
+  "id": "…",
+  "email": "…",
+  "familyName": "…",
+  "telephone": "…",
+  "email": "…",
+  "status": "…"
+}</pre></td></tr><tr><td><code>doUpdate</code></td><td>Update an existing person record</td><td>idempotent</td><td>PUT</td><td><a href="#item"><code>item</code></a></td><td>choreography</td><td><pre>{
+  "id": "…",
+  "email": "…",
+  "familyName": "…",
+  "telephone": "…",
+  "email": "…",
+  "status": "…"
+}</pre></td></tr><tr><td><code>doStatus</code></td><td>Change the status of an existing person record</td><td>idempotent</td><td>PUT</td><td><a href="#item"><code>item</code></a></td><td>choreography</td><td><pre>{
+  "id": "…",
+  "status": "…"
+}</pre></td></tr><tr><td><code>doRemove</code></td><td>Remove an existing person record</td><td>idempotent</td><td>PUT</td><td><a href="#collection"><code>collection</code></a></td><td>choreography</td><td><pre>{
+  "id": "…"
+}</pre></td></tr></table></section>
+<section id="metadata">
+  <h2>Metadata</h2>
+  <ul>
+    <li><strong>Title:</strong> Person Service API</li>
+    <li><strong>Version:</strong> 1.0</li>
+    <li><strong>Last Modified:</strong> 2025-05-19T18:59:07.072109Z</li>
+    <li><strong>Source:</strong> <a href="http://b.mamund.com/rwmbook" target="_blank">RWMBook</a></li>
+  </ul>
+</section>
+</main></body></html>

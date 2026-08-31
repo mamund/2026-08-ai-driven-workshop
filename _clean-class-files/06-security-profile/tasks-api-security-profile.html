@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Management API – RBAC Security Profile</title>
+  <style>
+    body { font-family: sans-serif; line-height: 1.6; padding: 2em; }
+    h1, h2 { color: #2c3e50; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2em; }
+    th, td { border: 1px solid #ccc; padding: 0.5em; text-align: center; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+
+<h1>Task Management API – RBAC Security Profile</h1>
+
+<h2>Declared Roles</h2>
+<table>
+  <thead>
+    <tr><th>Role</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>anon</td><td>Anonymous (unauthenticated user)</td></tr>
+    <tr><td>user</td><td>Authenticated standard user</td></tr>
+    <tr><td>admin</td><td>Authenticated administrative user</td></tr>
+  </tbody>
+</table>
+
+<h2>Resource Access Matrix</h2>
+<table>
+  <thead>
+    <tr><th>Resource</th><th>anon</th><th>user</th><th>admin</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Home</td><td>✔</td><td>✔</td><td>✔</td></tr>
+    <tr><td>TaskCollection</td><td></td><td>✔</td><td>✔</td></tr>
+    <tr><td>TaskItem</td><td></td><td>✔</td><td>✔</td></tr>
+  </tbody>
+</table>
+
+<h2>Action Access Matrix</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Type</th>
+      <th>anon</th>
+      <th>user</th>
+      <th>admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>ShowHomePage</td><td>Safe</td><td>✔</td><td>✔</td><td>✔</td></tr>
+    <tr><td>GetTaskCollection</td><td>Safe</td><td></td><td>✔</td><td>✔</td></tr>
+    <tr><td>GetTaskItem</td><td>Safe</td><td></td><td>✔</td><td>✔</td></tr>
+    <tr><td>CreateNewTask</td><td>Unsafe</td><td></td><td>✔</td><td>✔</td></tr>
+    <tr><td>EditExistingTask</td><td>Unsafe</td><td></td><td>✔</td><td>✔</td></tr>
+    <tr><td>UpdateStatusOfTask</td><td>Idempotent</td><td></td><td>✔</td><td>✔</td></tr>
+    <tr><td>SetDueDateOfTask</td><td>Idempotent</td><td></td><td></td><td>✔</td></tr>
+    <tr><td>AssignUserToTask</td><td>Idempotent</td><td></td><td></td><td>✔</td></tr>
+    <tr><td>GetFilteredTaskCollection</td><td>Safe</td><td></td><td>✔</td><td>✔</td></tr>
+  </tbody>
+</table>
+
+<h2>Verification Summary</h2>
+<ul>
+  <li><strong>Roles:</strong> All roles are defined, no orphan or undefined roles.</li>
+  <li><strong>Resources:</strong> All resources declare AllowedRoles with valid references.</li>
+  <li><strong>Actions:</strong> All actions declare AllowedRoles with correct types and valid references.</li>
+  <li><strong>Format & Structure:</strong> Complies with Markdown structure guidelines, no duplicates or inconsistencies.</li>
+  <li><strong>RBAC Map:</strong> Fully consistent with the API story; complete and accurate role mappings.</li>
+</ul>
+
+</body>
+</html>
+

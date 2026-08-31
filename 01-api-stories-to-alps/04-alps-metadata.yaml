@@ -1,0 +1,64 @@
+# ALPS Profile Metadata Configuration
+
+namingConventions:
+  ontologyIdStyle: lowerCamelCase
+  taxonomyIdStyle: UpperCamelCase
+  choreographyPrefix:
+    safe: go
+    unsafe: do
+    idempotent: do
+
+descriptorTypes:
+  - semantic
+  - safe
+  - unsafe
+  - idempotent
+  - delete
+
+requiredAttributes:
+  - id
+  - title
+
+optionalAttributes:
+  - doc
+  - tag
+  - def
+  - rel
+  - rt
+  - href
+
+grouping:
+  applyTags: true
+  tagExamples:
+    - task-management
+    - navigation
+    - user-management
+    - reporting
+
+enums:
+  status:
+    - active
+    - completed
+  priority:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+
+requiredAnnotation:
+  field: doc.value
+  formatHint: "Required: field1, field2"
+
+validationRules:
+  - allIdsMustBeUnique: true
+  - allHrefMustResolve: true
+  - allRtMustResolveToState: true
+  - allStatesMustBeReachable: true
+  - allTransitionsMustBeReferenced: true
+
+documentStructure:
+  sections:
+    - ontology
+    - taxonomy
+    - choreography

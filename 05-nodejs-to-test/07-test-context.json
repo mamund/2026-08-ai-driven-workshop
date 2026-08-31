@@ -1,0 +1,58 @@
+{
+  "project": "Person Service API",
+  "sourceFile": "index.js",
+  "testFile": "test/api.test.js",
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/persons"
+    },
+    {
+      "method": "POST",
+      "path": "/persons"
+    },
+    {
+      "method": "GET",
+      "path": "/persons/:id"
+    },
+    {
+      "method": "PUT",
+      "path": "/persons/:id/edit"
+    },
+    {
+      "method": "PUT",
+      "path": "/persons/:id/status"
+    },
+    {
+      "method": "DELETE",
+      "path": "/persons/:id"
+    },
+    {
+      "method": "GET",
+      "path": "/persons/filter"
+    }
+  ],
+  "tags": {
+    "routeTag": "@alps-route",
+    "errorCaseTag": "@error-case",
+    "linkCheckTag": "@link-check"
+  },
+  "resetStrategy": {
+    "type": "inMemory",
+    "resetFunction": "app.__setPersons__",
+    "hook": "beforeEach"
+  },
+  "assertions": {
+    "statusCode": true,
+    "responseShape": true,
+    "linkStructure": true
+  },
+  "styleGuide": "test-style-guide.md",
+  "checklist": "test-verification-checklist.md",
+  "metadataConventions": "metadata-conventions.md",
+  "promptTemplate": "prompt-template-testgen.md"
+}

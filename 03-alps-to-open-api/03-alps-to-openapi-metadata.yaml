@@ -1,0 +1,43 @@
+
+alps_to_openapi_profile:
+  version: 1.0
+  format: OpenAPI 3.1
+  output_format: yaml
+  default_schema_naming:
+    ontology: lowerCamelCase
+    taxonomy: UpperCamelCase
+    operations: verbNoun (e.g., createPerson)
+  schema_generation:
+    use_inline_examples: true
+    include_x_semantic: true
+    def_to_x_semantic: true
+    use_doc_value_as_description: true
+    include_title: true
+    include_description: true
+  operation_mapping:
+    safe: GET
+    unsafe: POST
+    idempotent: [PUT, PATCH, DELETE]
+  endpoint_conventions:
+    collection_path: /{resourcePlural}
+    item_path: /{resourcePlural}/{id}
+    status_patch_path: /{resourcePlural}/{id}/status
+  query_parameter_handling:
+    filter_transitions: true
+    derive_from_descriptor_href: true
+  tags:
+    use_alps_tag_as_openapi_tag: true
+  error_responses:
+    include_standard_errors: true
+    error_status_codes:
+      - 400
+      - 404
+  enhancements:
+    links_from_transitions: optional
+    x_alps_rt: optional
+    doc_format_handling: basic (plain text)
+  validation:
+    must_validate_openapi_schema: true
+    must_include_examples: true
+    check_all_operations_tagged: true
+    no_isolated_states_in_alps: true

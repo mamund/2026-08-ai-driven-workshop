@@ -1,0 +1,59 @@
+{
+  "roles": [
+    "anon",
+    "user",
+    "admin"
+  ],
+  "resources": {
+    "Home": [
+      "anon",
+      "user",
+      "admin"
+    ],
+    "TaskCollection": [
+      "user",
+      "admin"
+    ],
+    "TaskItem": [
+      "user",
+      "admin"
+    ]
+  },
+  "actions": {
+    "ShowHomePage": [
+      "anon",
+      "user",
+      "admin"
+    ],
+    "GetTaskCollection": [
+      "user",
+      "admin"
+    ],
+    "GetTaskItem": [
+      "user",
+      "admin"
+    ],
+    "CreateNewTask": [
+      "user",
+      "admin"
+    ],
+    "EditExistingTask": [
+      "user",
+      "admin"
+    ],
+    "UpdateStatusOfTask": [
+      "user",
+      "admin"
+    ],
+    "SetDueDateOfTask": [
+      "admin"
+    ],
+    "AssignUserToTask": [
+      "admin"
+    ],
+    "GetFilteredTaskCollection": [
+      "user",
+      "admin"
+    ]
+  }
+}

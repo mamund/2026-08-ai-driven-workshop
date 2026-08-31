@@ -1,0 +1,18 @@
+{
+  "resources": {
+    "Home": "Home",
+    "TaskCollection": "TaskCollection",
+    "TaskItem": "TaskItem"
+  },
+  "actions": {
+    "ShowHomePage": "goHome",
+    "GetTaskCollection": "goTaskList",
+    "GetTaskItem": "goTaskList",
+    "CreateNewTask": "doCreateTask",
+    "EditExistingTask": "doEditTask",
+    "UpdateStatusOfTask": "doUpdateStatus",
+    "SetDueDateOfTask": "doSetDueDate",
+    "AssignUserToTask": "doAssignUser",
+    "GetFilteredTaskCollection": "goFilteredTasks"
+  }
+}

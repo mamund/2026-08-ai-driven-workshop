@@ -1,0 +1,231 @@
+openapi: 3.1.0
+info:
+  title: Blog API
+  version: 1.0.0
+  description: This OpenAPI document was generated from an ALPS profile for a blog
+    system with articles and comments.
+tags:
+- name: content-creation
+  description: Content Creation Operations
+paths:
+  /articles/{articleId}:
+    get:
+      summary: View Article Details
+      description: View Article Details
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+    put:
+      summary: Update Article
+      description: Update Article
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+    patch:
+      summary: Publish Article
+      description: Publish Article
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+    post:
+      summary: Delete Article
+      description: Delete Article
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleList'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+  /articles:
+    post:
+      summary: Create Article
+      description: Create Article
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleList'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+  /comments:
+    post:
+      summary: Create Comment
+      description: Create Comment
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentList'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+  /comments/{commentId}:
+    post:
+      summary: Delete Comment
+      description: Delete Comment
+      tags:
+      - content-creation
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentList'
+        '400':
+          description: Invalid input (e.g., missing required fields or bad data)
+        '404':
+          description: Resource not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        articleId:
+          type: string
+          title: ArticleID
+          description: ArticleID
+          example: Example articleId
+          x-semantic: https://schema.org/identifier
+        title:
+          type: string
+          title: Title
+          description: Title
+          example: Example title
+          x-semantic: https://schema.org/headline
+        content:
+          type: string
+          title: Content
+          description: Content
+          example: Example content
+          x-semantic: https://schema.org/articleBody
+        publicationDate:
+          type: string
+          title: Publication Date
+          description: Publication Date
+          example: Example publicationDate
+          x-semantic: https://schema.org/datePublished
+        tag:
+          type: string
+          title: Tag
+          description: Tag
+          example: Example tag
+          x-semantic: https://schema.org/keywords
+        author:
+          type: string
+          title: Author
+          description: Author
+          example: Example author
+          x-semantic: https://schema.org/author
+    Comment:
+      type: object
+      properties:
+        commentId:
+          type: string
+          title: CommentID
+          description: CommentID
+          example: Example commentId
+          x-semantic: https://schema.org/identifier
+        commentContent:
+          type: string
+          title: Comment Content
+          description: Comment Content
+          example: Example commentContent
+          x-semantic: https://schema.org/commentText
+        commenter:
+          type: string
+          title: Commenter
+          description: Commenter
+          example: Example commenter
+          x-semantic: https://schema.org/creator
