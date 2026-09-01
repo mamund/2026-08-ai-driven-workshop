@@ -1,0 +1,1056 @@
+{
+  "manifestVersion": "0.2",
+  "version": "1.0.0",
+  "name": "Task Management API \u2014 Generated TRAM Assertion Collection",
+  "description": "Generated from the Task Management API Story and associated OpenAPI document. Tests are tagged by TRAM behavioral level. Story semantics are treated as normative; OpenAPI supplies HTTP paths, methods, parameters, schemas, and response status choices.",
+  "config": {
+    "baseUrl": "http://localhost:3000",
+    "timeoutMs": 5000,
+    "defaultHeaders": {
+      "accept": "application/json"
+    }
+  },
+  "data": {
+    "seed": {
+      "id": "${uuid}",
+      "title": "TRAM generated seed task",
+      "description": "Seed task used by generated assertions",
+      "dueDate": "2026-12-15",
+      "status": "active",
+      "priority": 3,
+      "assignedUser": "alice"
+    },
+    "edit": {
+      "title": "TRAM edited seed task",
+      "description": "Edited by generated TRAM assertions",
+      "dueDate": "2026-12-20",
+      "status": "active",
+      "priority": 4,
+      "assignedUser": "bob"
+    },
+    "workflow": {
+      "id": "${uuid}",
+      "title": "TRAM workflow task",
+      "description": "Task used for accumulated workflow verification",
+      "dueDate": "2027-01-15",
+      "status": "active",
+      "priority": 2,
+      "assignedUser": "carol"
+    },
+    "governance": {
+      "duplicateId": "${uuid}",
+      "generatedIdTitle": "TRAM server-generated identifier task",
+      "invalidStatusId": "${uuid}",
+      "invalidPriorityId": "${uuid}",
+      "missingTitleId": "${uuid}",
+      "missingStatusId": "${uuid}"
+    }
+  },
+  "tests": [
+    {
+      "id": "surface-home",
+      "name": "Reach home resource",
+      "description": "Verify the OpenAPI home operation is reachable.",
+      "tags": [
+        "level-0",
+        "surface",
+        "safe"
+      ],
+      "method": "GET",
+      "path": "/goShowHomePage",
+      "expect": {
+        "status": 200,
+        "headers": [
+          {
+            "name": "content-type",
+            "contains": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "surface-task-collection",
+      "name": "Reach task collection",
+      "description": "Verify the task collection operation is reachable.",
+      "tags": [
+        "level-0",
+        "surface",
+        "safe"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskCollection",
+      "expect": {
+        "status": 200,
+        "headers": [
+          {
+            "name": "content-type",
+            "contains": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "surface-filtered-task-collection",
+      "name": "Reach filtered task collection",
+      "description": "Verify the filtered collection operation is reachable without filters.",
+      "tags": [
+        "level-0",
+        "surface",
+        "safe"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "expect": {
+        "status": 200,
+        "headers": [
+          {
+            "name": "content-type",
+            "contains": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shape-task-collection",
+      "name": "Task collection has expected shape",
+      "description": "Verify collection and required TaskItem properties. Optional property checks follow the Story's data-property definitions where TRAM can express them.",
+      "tags": [
+        "level-1",
+        "shape",
+        "collection"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskCollection",
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "each": {
+              "hasProperties": [
+                "id",
+                "title",
+                "status"
+              ]
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "id",
+              "type": "string"
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "title",
+              "type": "string"
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "status",
+              "oneOf": [
+                "active",
+                "completed"
+              ]
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "description",
+              "optional": true,
+              "type": "string"
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "dueDate",
+              "optional": true,
+              "type": "string"
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "priority",
+              "optional": true,
+              "type": "number"
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "priority",
+              "optional": true,
+              "range": {
+                "min": 1,
+                "max": 5
+              }
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "assignedUser",
+              "optional": true,
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsafe-create-seed",
+      "name": "Create seed task",
+      "description": "Create a known task used by later item, filtering, and mutation assertions.",
+      "tags": [
+        "level-3",
+        "unsafe",
+        "create",
+        "setup"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": "$data.seed",
+      "expect": {
+        "status": 200,
+        "headers": [
+          {
+            "name": "content-type",
+            "contains": "application/json"
+          }
+        ],
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-get-task-item",
+      "name": "Get a single existing task",
+      "description": "Retrieve the seed task by the id required by the API Story.",
+      "tags": [
+        "level-2",
+        "safe",
+        "lookup"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskItem",
+      "query": {
+        "id": "${data.seed.id}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "hasProperties": [
+              "id",
+              "title",
+              "status"
+            ]
+          },
+          {
+            "path": "$.id",
+            "equals": "${data.seed.id}"
+          },
+          {
+            "path": "$.title",
+            "equals": "${data.seed.title}"
+          },
+          {
+            "path": "$.status",
+            "equals": "active"
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-filter-title",
+      "name": "Filter tasks by title",
+      "tags": [
+        "level-2",
+        "safe",
+        "filter"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "query": {
+        "title": "${data.seed.title}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "length": {
+              "min": 1
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "title",
+              "equals": "${data.seed.title}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-filter-due-date",
+      "name": "Filter tasks by due date",
+      "tags": [
+        "level-2",
+        "safe",
+        "filter"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "query": {
+        "dueDate": "${data.seed.dueDate}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "length": {
+              "min": 1
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "dueDate",
+              "equals": "${data.seed.dueDate}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-filter-status",
+      "name": "Filter tasks by status",
+      "tags": [
+        "level-2",
+        "safe",
+        "filter"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "query": {
+        "status": "active"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "length": {
+              "min": 1
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "status",
+              "equals": "active"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-filter-priority",
+      "name": "Filter tasks by priority",
+      "description": "The Story defines priority as a number from 1 through 5.",
+      "tags": [
+        "level-2",
+        "safe",
+        "filter",
+        "story-normative",
+        "openapi-conflict"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "query": {
+        "priority": 3
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "length": {
+              "min": 1
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "priority",
+              "equals": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-filter-assigned-user",
+      "name": "Filter tasks by assigned user",
+      "tags": [
+        "level-2",
+        "safe",
+        "filter"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "query": {
+        "assignedUser": "${data.seed.assignedUser}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "length": {
+              "min": 1
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "assignedUser",
+              "equals": "${data.seed.assignedUser}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "safe-reject-unknown-task",
+      "name": "Reject unknown task lookup",
+      "description": "OpenAPI documents 404 for resource not found.",
+      "tags": [
+        "level-2",
+        "safe",
+        "lookup",
+        "sad-path"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskItem",
+      "query": {
+        "id": "${uuid}"
+      },
+      "expect": {
+        "status": 404
+      }
+    },
+    {
+      "id": "unsafe-edit-task",
+      "name": "Edit an existing task",
+      "description": "Uses POST because that is the method supplied by OpenAPI, although the Story classifies EditExistingTask as idempotent.",
+      "tags": [
+        "level-3",
+        "unsafe",
+        "edit",
+        "openapi-conflict"
+      ],
+      "method": "POST",
+      "path": "/doEditExistingTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.seed.id}",
+        "title": "${data.edit.title}",
+        "description": "${data.edit.description}",
+        "dueDate": "${data.edit.dueDate}",
+        "status": "${data.edit.status}",
+        "priority": 4,
+        "assignedUser": "${data.edit.assignedUser}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.id",
+            "equals": "${data.seed.id}"
+          },
+          {
+            "path": "$.title",
+            "equals": "${data.edit.title}"
+          },
+          {
+            "path": "$.status",
+            "equals": "active"
+          },
+          {
+            "path": "$.priority",
+            "equals": 4
+          },
+          {
+            "path": "$.assignedUser",
+            "equals": "${data.edit.assignedUser}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsafe-update-status",
+      "name": "Update task status",
+      "tags": [
+        "level-3",
+        "unsafe",
+        "update-status"
+      ],
+      "method": "PUT",
+      "path": "/doUpdateStatusOfTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.seed.id}",
+        "status": "completed"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.id",
+            "equals": "${data.seed.id}"
+          },
+          {
+            "path": "$.status",
+            "equals": "completed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsafe-set-due-date",
+      "name": "Set task due date",
+      "tags": [
+        "level-3",
+        "unsafe",
+        "due-date"
+      ],
+      "method": "PUT",
+      "path": "/doSetDueDateOfTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.seed.id}",
+        "dueDate": "2027-02-01"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.id",
+            "equals": "${data.seed.id}"
+          },
+          {
+            "path": "$.dueDate",
+            "equals": "2027-02-01"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsafe-assign-user",
+      "name": "Assign user to task",
+      "tags": [
+        "level-3",
+        "unsafe",
+        "assignment"
+      ],
+      "method": "PUT",
+      "path": "/doAssignUserToTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.seed.id}",
+        "assignedUser": "dana"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.id",
+            "equals": "${data.seed.id}"
+          },
+          {
+            "path": "$.assignedUser",
+            "equals": "dana"
+          }
+        ]
+      }
+    },
+    {
+      "id": "workflow-create",
+      "name": "Workflow: create task",
+      "tags": [
+        "level-4",
+        "workflow",
+        "create"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": "$data.workflow",
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "workflow-read-after-create",
+      "name": "Workflow: read task after create",
+      "tags": [
+        "level-4",
+        "workflow",
+        "read"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskItem",
+      "query": {
+        "id": "${data.workflow.id}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.id",
+            "equals": "${data.workflow.id}"
+          },
+          {
+            "path": "$.title",
+            "equals": "${data.workflow.title}"
+          },
+          {
+            "path": "$.status",
+            "equals": "active"
+          }
+        ]
+      }
+    },
+    {
+      "id": "workflow-update-status",
+      "name": "Workflow: complete task",
+      "tags": [
+        "level-4",
+        "workflow",
+        "update-status"
+      ],
+      "method": "PUT",
+      "path": "/doUpdateStatusOfTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.workflow.id}",
+        "status": "completed"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.status",
+            "equals": "completed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "workflow-set-due-date",
+      "name": "Workflow: set due date",
+      "tags": [
+        "level-4",
+        "workflow",
+        "due-date"
+      ],
+      "method": "PUT",
+      "path": "/doSetDueDateOfTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.workflow.id}",
+        "dueDate": "${data.workflow.dueDate}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.dueDate",
+            "equals": "${data.workflow.dueDate}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "workflow-assign-user",
+      "name": "Workflow: assign user",
+      "tags": [
+        "level-4",
+        "workflow",
+        "assignment"
+      ],
+      "method": "PUT",
+      "path": "/doAssignUserToTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.workflow.id}",
+        "assignedUser": "${data.workflow.assignedUser}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.assignedUser",
+            "equals": "${data.workflow.assignedUser}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "workflow-read-final-state",
+      "name": "Workflow: verify accumulated task state",
+      "description": "Verify that independent mutations accumulated on the same task.",
+      "tags": [
+        "level-4",
+        "workflow",
+        "final-state"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskItem",
+      "query": {
+        "id": "${data.workflow.id}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$.id",
+            "equals": "${data.workflow.id}"
+          },
+          {
+            "path": "$.title",
+            "equals": "${data.workflow.title}"
+          },
+          {
+            "path": "$.status",
+            "equals": "completed"
+          },
+          {
+            "path": "$.dueDate",
+            "equals": "${data.workflow.dueDate}"
+          },
+          {
+            "path": "$.assignedUser",
+            "equals": "${data.workflow.assignedUser}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "governance-create-without-id",
+      "name": "Service generates id when create omits id",
+      "description": "Normative Story rule. This intentionally conflicts with OpenAPI, which marks id required for creation. OpenAPI's documented 200 success status is used.",
+      "tags": [
+        "level-5",
+        "governance",
+        "id",
+        "story-normative",
+        "openapi-conflict"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "title": "${data.governance.generatedIdTitle}",
+        "status": "active"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "governance-find-server-generated-id",
+      "name": "Created task without client id has an id",
+      "description": "Follow the Story's server-generated-id rule with an observable lookup by title.",
+      "tags": [
+        "level-5",
+        "governance",
+        "id",
+        "story-normative"
+      ],
+      "method": "GET",
+      "path": "/goGetFilteredTaskCollection",
+      "query": {
+        "title": "${data.governance.generatedIdTitle}"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          },
+          {
+            "path": "$",
+            "length": {
+              "min": 1
+            }
+          },
+          {
+            "path": "$",
+            "each": {
+              "property": "id",
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "governance-create-duplicate-id-first",
+      "name": "Create task for duplicate-id check",
+      "tags": [
+        "level-5",
+        "governance",
+        "id",
+        "setup"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.governance.duplicateId}",
+        "title": "TRAM duplicate identifier seed",
+        "status": "active"
+      },
+      "expect": {
+        "status": 200,
+        "body": [
+          {
+            "path": "$",
+            "isArray": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "governance-reject-duplicate-id",
+      "name": "Reject duplicate client-supplied id",
+      "description": "Normative Story rule; 400 is selected from OpenAPI's Invalid input response.",
+      "tags": [
+        "level-5",
+        "governance",
+        "id",
+        "sad-path"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.governance.duplicateId}",
+        "title": "TRAM duplicate identifier second attempt",
+        "status": "active"
+      },
+      "expect": {
+        "status": 400
+      }
+    },
+    {
+      "id": "governance-create-missing-title",
+      "name": "Reject task creation without title",
+      "description": "The Story marks title required; OpenAPI provides 400 Invalid input.",
+      "tags": [
+        "level-5",
+        "governance",
+        "required-field",
+        "sad-path"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.governance.missingTitleId}",
+        "status": "active"
+      },
+      "expect": {
+        "status": 400
+      }
+    },
+    {
+      "id": "governance-create-missing-status",
+      "name": "Reject task creation without status",
+      "description": "The Story marks status required; OpenAPI provides 400 Invalid input.",
+      "tags": [
+        "level-5",
+        "governance",
+        "required-field",
+        "sad-path"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.governance.missingStatusId}",
+        "title": "TRAM missing status"
+      },
+      "expect": {
+        "status": 400
+      }
+    },
+    {
+      "id": "governance-reject-invalid-status",
+      "name": "Reject status outside the Story value set",
+      "description": "The Story defines status as active or completed. OpenAPI does not encode this enum, so this assertion is Story-derived and uses OpenAPI's 400 Invalid input response.",
+      "tags": [
+        "level-5",
+        "governance",
+        "status",
+        "sad-path",
+        "openapi-gap"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.governance.invalidStatusId}",
+        "title": "TRAM invalid status",
+        "status": "invalid"
+      },
+      "expect": {
+        "status": 400
+      }
+    },
+    {
+      "id": "governance-reject-priority-out-of-range",
+      "name": "Reject priority outside 1 through 5",
+      "description": "The Story defines priority as a numeric value between 1 and 5. OpenAPI incorrectly models priority as string and does not encode the range.",
+      "tags": [
+        "level-5",
+        "governance",
+        "priority",
+        "sad-path",
+        "story-normative",
+        "openapi-conflict"
+      ],
+      "method": "POST",
+      "path": "/doCreateNewTask",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "bodyType": "json",
+      "body": {
+        "id": "${data.governance.invalidPriorityId}",
+        "title": "TRAM invalid priority",
+        "status": "active",
+        "priority": 6
+      },
+      "expect": {
+        "status": 400
+      }
+    },
+    {
+      "id": "governance-reject-get-item-without-id",
+      "name": "Reject single-task lookup without id",
+      "description": "The Story marks id required for GetTaskItem. OpenAPI's prose agrees, but its parameter object incorrectly sets required:false. 400 Invalid input is used.",
+      "tags": [
+        "level-5",
+        "governance",
+        "required-field",
+        "openapi-conflict"
+      ],
+      "method": "GET",
+      "path": "/goGetTaskItem",
+      "expect": {
+        "status": 400
+      }
+    }
+  ]
+}
